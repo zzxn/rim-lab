@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://br1ijkgjtu3l1"]
 
-[ext_resource type="Script" uid="uid://cyfhw668q70n1" path="res://scripts/main.gd" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://cyfhw668q70n1" path="res://scripts/game_controller.gd" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://dg2mu62hjrhtq" path="res://scripts/player.gd" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://b2nif2k2amag4" path="res://scripts/debug_info.gd" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://5roew2bk0xk4" path="res://camera_2d.gd" id="6_o6xl0"]
@@ -8,7 +8,6 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_o5qli"]
 seed = 1462195830
-frequency = 0.02
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o6xl0"]
 atlas = ExtResource("6_tefeu")
@@ -54,7 +53,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_jyhfs"]
 radius = 7.0
 
-[node name="Main" type="Node" node_paths=PackedStringArray("player")]
+[node name="GameController" type="Node" node_paths=PackedStringArray("player")]
 script = ExtResource("1_o5qli")
 block_size = Vector2i(50, 50)
 noise = SubResource("FastNoiseLite_o5qli")
@@ -83,13 +82,20 @@ shape = SubResource("CircleShape2D_jyhfs")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="DebugInfo" type="HSplitContainer" parent="HUD"]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="DebugInfo" type="VBoxContainer" parent="HUD"]
+offset_right = 92.0
+offset_bottom = 51.0
 script = ExtResource("5_tbgi4")
 
 [node name="FPSLabel" type="Label" parent="HUD/DebugInfo"]
 layout_mode = 2
 text = "FPS: "
 
+[node name="HintBlockCheckButton" type="CheckButton" parent="HUD/DebugInfo"]
+layout_mode = 2
+text = "Hint Block"
+
 [node name="Blocks" type="Node" parent="."]
+
+[connection signal="debug_config_change" from="HUD/DebugInfo" to="." method="_on_debug_info_debug_config_change"]
+[connection signal="toggled" from="HUD/DebugInfo/HintBlockCheckButton" to="HUD/DebugInfo" method="_on_hint_block_check_button_toggled"]
