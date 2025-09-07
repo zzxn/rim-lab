@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://br1ijkgjtu3l1"]
+
+[ext_resource type="Script" uid="uid://cyfhw668q70n1" path="res://scripts/main.gd" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://dg2mu62hjrhtq" path="res://scripts/player.gd" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://5roew2bk0xk4" path="res://camera_2d.gd" id="6_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://cec6xvbvp5sog" path="res://sprites/player.png" id="6_tefeu"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_o5qli"]
+seed = 1462195830
+frequency = 0.02
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6xl0"]
+atlas = ExtResource("6_tefeu")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tipki"]
+atlas = ExtResource("6_tefeu")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85g3d"]
+atlas = ExtResource("6_tefeu")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_choun"]
+atlas = ExtResource("6_tefeu")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ya4ey"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o6xl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tipki")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85g3d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_choun")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jyhfs"]
+radius = 7.0
+
+[node name="Main" type="Node" node_paths=PackedStringArray("player")]
+script = ExtResource("1_o5qli")
+noise = SubResource("FastNoiseLite_o5qli")
+player = NodePath("Player")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+motion_mode = 1
+script = ExtResource("4_jyhfs")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(4, 4)
+position_smoothing_enabled = true
+position_smoothing_speed = 20.0
+script = ExtResource("6_o6xl0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+sprite_frames = SubResource("SpriteFrames_ya4ey")
+animation = &"run"
+autoplay = "idle"
+frame_progress = 0.558953
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_jyhfs")
