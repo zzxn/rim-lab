@@ -1,0 +1,4 @@
+extends Node
+
+signal debug_config_change
+signal player_position_change

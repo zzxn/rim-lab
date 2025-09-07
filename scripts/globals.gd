@@ -9,3 +9,5 @@ enum Terrain {
 	Grass = 2,
 	Water = 3,
 }
+
+var M := 32.0  # 1m = 32 pixel

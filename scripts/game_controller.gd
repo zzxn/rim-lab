@@ -33,6 +33,8 @@ func _ready() -> void:
 	print("main ready")
 	Engine.max_fps = 240
 	Globals.game_controller = self
+	EventBus.debug_config_change.connect(_on_debug_info_debug_config_change)
+
 
 func _physics_process(delta: float) -> void:
 	generate_blocks(delta)

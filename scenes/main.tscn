@@ -62,7 +62,6 @@ player = NodePath("Player")
 [node name="Player" type="CharacterBody2D" parent="."]
 motion_mode = 1
 script = ExtResource("4_jyhfs")
-speed = 10000
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(4, 4)
@@ -73,9 +72,9 @@ script = ExtResource("6_o6xl0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
 sprite_frames = SubResource("SpriteFrames_ya4ey")
-animation = &"run"
+animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.558953
+frame_progress = 0.459379
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CircleShape2D_jyhfs")
@@ -91,11 +90,14 @@ script = ExtResource("5_tbgi4")
 layout_mode = 2
 text = "FPS: "
 
+[node name="PlayerPositionLabel" type="Label" parent="HUD/DebugInfo"]
+layout_mode = 2
+text = "Player Position: "
+
 [node name="HintBlockCheckButton" type="CheckButton" parent="HUD/DebugInfo"]
 layout_mode = 2
 text = "Hint Block"
 
 [node name="Blocks" type="Node" parent="."]
 
-[connection signal="debug_config_change" from="HUD/DebugInfo" to="." method="_on_debug_info_debug_config_change"]
 [connection signal="toggled" from="HUD/DebugInfo/HintBlockCheckButton" to="HUD/DebugInfo" method="_on_hint_block_check_button_toggled"]
