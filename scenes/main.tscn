@@ -63,6 +63,7 @@ player = NodePath("Player")
 [node name="Player" type="CharacterBody2D" parent="."]
 motion_mode = 1
 script = ExtResource("4_jyhfs")
+speed = 10000
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(4, 4)
@@ -90,3 +91,5 @@ script = ExtResource("5_tbgi4")
 [node name="FPSLabel" type="Label" parent="HUD/DebugInfo"]
 layout_mode = 2
 text = "FPS: "
+
+[node name="Blocks" type="Node" parent="."]

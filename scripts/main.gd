@@ -9,6 +9,8 @@ var noise: Noise = FastNoiseLite.new()
 @export
 var player: Node2D
 
+@onready var blocks_parent: Node = $Blocks
+
 var block_scene: PackedScene = preload("res://scenes/block.tscn")
 var generate_thread: Thread
 
@@ -40,7 +42,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			print("add_child(block)", str(block.block_pos))
 			curr_block_dict[block.block_pos] = block
-			add_child(block)
+			blocks_parent.add_child(block)
 			generate_task_dict.erase(block.block_pos)
 		
 	
@@ -76,23 +78,15 @@ func generate_block(pos: Vector2i):
 	block.position = Vector2(pos.x * block_size.x * 32, pos.y * block_size.y * 32)
 	block.name = "Block " + str(pos)
 	block.generate()
-	# OS.delay_msec(randi() % 100)
-	call_deferred("add_block", block)
+	call_deferred("queue_add_block", block)
 
 
 func player_pos_to_block_pos(player_pos: Vector2) -> Vector2i:
 	return Vector2i(floori(player_pos.x / 32 / block_size.x), floori(player_pos.y / 32 / block_size.y))
 	
 
-func add_block(block: Block):
-	#print("add_block", str(block.block_pos))
-	#if block.block_pos in curr_block_dict:
-		#push_warning("block exit!", str(block.block_pos))
-		#return
-	#curr_block_dict[block.block_pos] = block
-	#add_child(block)
-	#generate_task_dict.erase(block.block_pos)
-	print("append_block", str(block.block_pos))
+func queue_add_block(block: Block):
+	print("queue_add_block", str(block.block_pos))
 	block_enter_scene_queue.append(block)
 
 
