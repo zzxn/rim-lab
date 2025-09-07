@@ -42,6 +42,7 @@ script = ExtResource("5_1bw7o")
 noise = SubResource("FastNoiseLite_bk4tb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.196078)
 scale = Vector2(24.9922, 25.0313)
 texture = ExtResource("6_bk4tb")

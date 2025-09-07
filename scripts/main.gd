@@ -19,6 +19,11 @@ var generate_task_dict: Dictionary = {} # key: block_pos, value: task_id
 
 const LOAD_DISTANCE = 3
 
+const BLOCK_ENTER_SCENE_TIME_GAP = 0.05
+var block_enter_timeout = 0.0
+
+var block_enter_scene_queue = []
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	print("main ready")
@@ -26,6 +31,18 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	generate()
+	block_enter_timeout = max(block_enter_timeout - delta, 0)
+	if block_enter_timeout <= 0 and block_enter_scene_queue:
+		block_enter_timeout += BLOCK_ENTER_SCENE_TIME_GAP
+		var block = block_enter_scene_queue.pop_front()
+		if block.block_pos in curr_block_dict:
+			push_warning("block exit!", str(block.block_pos))
+		else:
+			print("add_child(block)", str(block.block_pos))
+			curr_block_dict[block.block_pos] = block
+			add_child(block)
+			generate_task_dict.erase(block.block_pos)
+		
 	
 
 func generate():
@@ -42,12 +59,12 @@ func generate():
 		if block_pos not in curr_block_dict and block_pos not in generate_task_dict:
 			var task_id := WorkerThreadPool.add_task(generate_block.bind(block_pos))
 			generate_task_dict[block_pos] = task_id
-		#if block_pos not in curr_block_dict and block_pos not in generate_task_dict:
-		#	generate_block(block_pos)
+
 	# unload blocks
 	for block in curr_block_dict.values():
 		if abs(block.block_pos.x - curr_block_pos.x) >= (LOAD_DISTANCE + 2) or abs(block.block_pos.y - curr_block_pos.y) >= (LOAD_DISTANCE + 2):
 			remove_block(block)
+
 
 
 func generate_block(pos: Vector2i):
@@ -57,6 +74,7 @@ func generate_block(pos: Vector2i):
 	block.block_size = block_size
 	block.block_pos = pos
 	block.position = Vector2(pos.x * block_size.x * 32, pos.y * block_size.y * 32)
+	block.name = "Block " + str(pos)
 	block.generate()
 	# OS.delay_msec(randi() % 100)
 	call_deferred("add_block", block)
@@ -68,12 +86,14 @@ func player_pos_to_block_pos(player_pos: Vector2) -> Vector2i:
 
 func add_block(block: Block):
 	#print("add_block", str(block.block_pos))
-	if block.block_pos in curr_block_dict:
-		push_warning("block exit!", str(block.block_pos))
-		return
-	curr_block_dict[block.block_pos] = block
-	add_child(block)
-	generate_task_dict.erase(block.block_pos)
+	#if block.block_pos in curr_block_dict:
+		#push_warning("block exit!", str(block.block_pos))
+		#return
+	#curr_block_dict[block.block_pos] = block
+	#add_child(block)
+	#generate_task_dict.erase(block.block_pos)
+	print("append_block", str(block.block_pos))
+	block_enter_scene_queue.append(block)
 
 
 func remove_block(block: Block):
