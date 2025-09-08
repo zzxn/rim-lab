@@ -55,7 +55,6 @@ radius = 7.0
 
 [node name="GameController" type="Node" node_paths=PackedStringArray("player")]
 script = ExtResource("1_o5qli")
-block_size = Vector2i(50, 50)
 noise = SubResource("FastNoiseLite_o5qli")
 player = NodePath("Player")
 

@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cjx54rqie1i61"]
+
+[ext_resource type="Shader" uid="uid://ye1cjsxmdndo" path="res://shaders/tile.gdshader" id="1_s5n8v"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_s5n8v"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rvfs3"]
+seamless = true
+normalize = false
+noise = SubResource("FastNoiseLite_s5n8v")
+
+[resource]
+shader = ExtResource("1_s5n8v")
+shader_parameter/noise = SubResource("NoiseTexture2D_rvfs3")

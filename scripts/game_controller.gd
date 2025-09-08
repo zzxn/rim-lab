@@ -1,7 +1,7 @@
 class_name GameController extends Node
 
 @export
-var block_size: Vector2i = Vector2i(5, 5)
+var block_size: Vector2i = Vector2i(8, 8)
 
 @export
 var noise: Noise = FastNoiseLite.new()
@@ -19,9 +19,9 @@ var curr_block_pos_list = []
 var curr_block_dict: Dictionary = {}
 var generate_task_dict: Dictionary = {} # key: block_pos, value: task_id
 
-const LOAD_DISTANCE = 3
+const LOAD_DISTANCE = 4
 
-const BLOCK_ENTER_SCENE_TIME_GAP = 0.05
+const BLOCK_ENTER_SCENE_TIME_GAP = 0.025
 var block_enter_timeout = 0.0
 
 var block_enter_scene_queue = []
