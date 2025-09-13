@@ -13,5 +13,10 @@ func _physics_process(delta):
 		move_and_slide()
 	else:
 		animated_sprite.play("idle")
+	
+	if position.x > Globals.MAX_PLAYER_POS:
+		position.x = Globals.MAX_PLAYER_POS
+	if position.y > Globals.MAX_PLAYER_POS:
+		position.y = Globals.MAX_PLAYER_POS
 
-	EventBus.player_position_change.emit(position)
+	EventBus.player_position_change.emit(position/32.0)

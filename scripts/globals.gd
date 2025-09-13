@@ -10,4 +10,5 @@ enum Terrain {
 	Water = 3,
 }
 
-var M := 32.0  # 1m = 32 pixel
+const M = 32.0  # 1m = 32 pixel
+const MAX_PLAYER_POS = 8000 * M # 256000

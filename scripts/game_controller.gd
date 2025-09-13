@@ -10,18 +10,20 @@ var noise: Noise = FastNoiseLite.new()
 var player: Node2D
 
 @onready var blocks_parent: Node = $Blocks
+@onready var terrain_tile_map_layer: TileMapLayer = $TerrainTileMapLayer
 
 var block_scene: PackedScene = preload("res://scenes/block.tscn")
-var generate_thread: Thread
 
 var last_player_pos: Vector2
 var curr_block_pos_list = []
 var curr_block_dict: Dictionary = {}
 var generate_task_dict: Dictionary = {} # key: block_pos, value: task_id
 
-const LOAD_DISTANCE = 4
+const LOAD_DISTANCE = 8
 
-const BLOCK_ENTER_SCENE_TIME_GAP = 0.025
+const MAX_PLAYER_POS_LIMIT = 8000 * Globals.M
+
+const BLOCK_ENTER_SCENE_TIME_GAP = 0.01
 var block_enter_timeout = 0.0
 
 var block_enter_scene_queue = []
@@ -30,7 +32,7 @@ var debug_config: Dictionary
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("main ready")
+	# print_debug("main ready")
 	Engine.max_fps = 240
 	Globals.game_controller = self
 	EventBus.debug_config_change.connect(_on_debug_info_debug_config_change)
@@ -39,8 +41,11 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	generate_blocks(delta)
 
+
 func generate_blocks(delta: float):
 	var player_position := player.position if player else Vector2.ZERO
+	if last_player_pos and player_position.distance_to(player_position) < 32.0:
+		return
 	var curr_block_pos = global_to_block_pos(player_position)
 	var required_block_pos_list := []
 	for dy in range(-LOAD_DISTANCE, LOAD_DISTANCE+1):
@@ -50,6 +55,7 @@ func generate_blocks(delta: float):
 	# load blocks
 	for block_pos in required_block_pos_list:
 		if block_pos not in curr_block_dict and block_pos not in generate_task_dict:
+			print_debug("add_generate_block_task", str(block_pos))
 			var task_id := WorkerThreadPool.add_task(generate_block.bind(block_pos))
 			generate_task_dict[block_pos] = task_id
 
@@ -64,22 +70,23 @@ func generate_blocks(delta: float):
 		block_enter_timeout += BLOCK_ENTER_SCENE_TIME_GAP
 		var block = block_enter_scene_queue.pop_front()
 		if block.block_pos in curr_block_dict:
-			push_warning("block exit!", str(block.block_pos))
+			push_warning("block already generated...", str(block.block_pos))
 		else:
-			print("add_child(block)", str(block.block_pos))
+			# print_debug("add_child(block)", str(block.block_pos))
 			curr_block_dict[block.block_pos] = block
 			blocks_parent.add_child(block)
 			generate_task_dict.erase(block.block_pos)
 
 
 func generate_block(pos: Vector2i):
-	#print("generate_block", str(pos))
+	# print("generate_block", str(pos), " ======= ", str(terrain_tile_map_layer))
 	var block: Block = block_scene.instantiate()
 	block.noise = noise
 	block.block_size = block_size
 	block.block_pos = pos
 	block.position = Vector2(pos.x * block_size.x * 32, pos.y * block_size.y * 32)
 	block.name = "Block " + str(pos)
+	block.tile_map_layer = terrain_tile_map_layer
 	block.generate()
 	call_deferred("queue_add_block", block)
 
@@ -89,16 +96,16 @@ func global_to_block_pos(global_pos: Vector2) -> Vector2i:
 	
 
 func queue_add_block(block: Block):
-	print("queue_add_block", str(block.block_pos))
+	# print_debug("queue_add_block", str(block.block_pos))
 	block_enter_scene_queue.append(block)
 
 
 func remove_block(block: Block):
-	print("remove_block", str(block.block_pos))
+	# print_debug("remove_block", str(block.block_pos))
 	curr_block_dict.erase(block.block_pos)
 	block.queue_free()
 
 
 func _on_debug_info_debug_config_change(key: String, value) -> void:
-	print("_on_debug_info_debug_config_change(", key, ", ", value, ")")
+	# print_debug("_on_debug_info_debug_config_change(", key, ", ", value, ")")
 	self.debug_config[key] = value

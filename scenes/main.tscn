@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://br1ijkgjtu3l1"]
+[gd_scene load_steps=14 format=3 uid="uid://br1ijkgjtu3l1"]
 
 [ext_resource type="Script" uid="uid://cyfhw668q70n1" path="res://scripts/game_controller.gd" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://dg2mu62hjrhtq" path="res://scripts/player.gd" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://b2nif2k2amag4" path="res://scripts/debug_info.gd" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://5roew2bk0xk4" path="res://camera_2d.gd" id="6_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://cec6xvbvp5sog" path="res://sprites/player.png" id="6_tefeu"]
+[ext_resource type="TileSet" uid="uid://gkulhukl4y58" path="res://scenes/terrain_tile_set.tres" id="6_tipki"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_o5qli"]
 seed = 1462195830
@@ -61,6 +62,7 @@ player = NodePath("Player")
 [node name="Player" type="CharacterBody2D" parent="."]
 motion_mode = 1
 script = ExtResource("4_jyhfs")
+speed = 64
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(4, 4)
@@ -98,5 +100,9 @@ layout_mode = 2
 text = "Hint Block"
 
 [node name="Blocks" type="Node" parent="."]
+
+[node name="TerrainTileMapLayer" type="TileMapLayer" parent="."]
+z_index = -100
+tile_set = ExtResource("6_tipki")
 
 [connection signal="toggled" from="HUD/DebugInfo/HintBlockCheckButton" to="HUD/DebugInfo" method="_on_hint_block_check_button_toggled"]
