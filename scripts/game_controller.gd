@@ -14,7 +14,8 @@ var player: Node2D
 
 var block_scene: PackedScene = preload("res://scenes/block.tscn")
 
-var last_player_pos: Vector2
+var last_block_pos: Vector2i
+
 var curr_block_pos_list = []
 var curr_block_dict: Dictionary = {}
 var generate_task_dict: Dictionary = {} # key: block_pos, value: task_id
@@ -44,13 +45,17 @@ func _physics_process(delta: float) -> void:
 
 func generate_blocks(delta: float):
 	var player_position := player.position if player else Vector2.ZERO
-	if last_player_pos and player_position.distance_to(player_position) < 32.0:
-		return
 	var curr_block_pos = global_to_block_pos(player_position)
+	if last_block_pos and curr_block_pos == last_block_pos:
+		return
+	last_block_pos = curr_block_pos
+
 	var required_block_pos_list := []
 	for dy in range(-LOAD_DISTANCE, LOAD_DISTANCE+1):
 		for dx in range(-LOAD_DISTANCE, LOAD_DISTANCE+1):
 			required_block_pos_list.append(Vector2i(curr_block_pos.x + dx, curr_block_pos.y + dy))
+	
+	required_block_pos_list.sort_custom(func (a, b): return a.distance_squared_to(curr_block_pos) <  b.distance_squared_to(curr_block_pos))
 
 	# load blocks
 	for block_pos in required_block_pos_list:
