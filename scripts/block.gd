@@ -57,11 +57,11 @@ func fill_tile_map_layer() -> void:
 			var y := block_pos.y * block_size.y + in_y
 			var terrain_type := self.grid_data.get_terrain_type(Vector2i(in_x, in_y))
 			if terrain_type == Globals.Terrain.Dirt:
-				self.tile_map_layer.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
+				self.tile_map_layer.set_cell(Vector2i(x, y), 0, Vector2i(6, 3))
 				pass
 			elif terrain_type == Globals.Terrain.Grass:
-				self.tile_map_layer.set_cell(Vector2i(x, y), 1, Vector2i(0, 0))
+				self.tile_map_layer.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 				pass
 			elif terrain_type == Globals.Terrain.Water:
-				self.tile_map_layer.set_cell(Vector2i(x, y), 2, Vector2i(0, 0))
+				self.tile_map_layer.set_cell(Vector2i(x, y), 0, Vector2i(6, 16))
 				pass
