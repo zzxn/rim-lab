@@ -22,6 +22,8 @@ var generate_task_dict: Dictionary = {} # key: block_pos, value: task_id
 
 const LOAD_DISTANCE = 8
 
+const ACTIVE_DISTANCE = 4
+
 const MAX_PLAYER_POS_LIMIT = 8000 * Globals.M
 
 const BLOCK_ENTER_SCENE_TIME_GAP = 0.01
@@ -49,6 +51,7 @@ func generate_blocks(delta: float):
 	if last_block_pos and curr_block_pos == last_block_pos:
 		return
 	last_block_pos = curr_block_pos
+	EventBus.current_block_position.emit(curr_block_pos)
 
 	var required_block_pos_list := []
 	for dy in range(-LOAD_DISTANCE, LOAD_DISTANCE+1):
@@ -97,7 +100,7 @@ func generate_block(pos: Vector2i):
 
 
 func global_to_block_pos(global_pos: Vector2) -> Vector2i:
-	return Vector2i(floori(global_pos.x / 32 / block_size.x), floori(global_pos.y / 32 / block_size.y))
+	return Vector2i(floori(global_pos.x / 32.0 / block_size.x), floori(global_pos.y / 32.0 / block_size.y))
 	
 
 func queue_add_block(block: Block):

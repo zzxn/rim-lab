@@ -11,7 +11,7 @@ seed = 1462195830
 [node name="GameController" type="Node" node_paths=PackedStringArray("player")]
 script = ExtResource("1_o5qli")
 noise = SubResource("FastNoiseLite_o5qli")
-player = NodePath("")
+player = NodePath("Player")
 
 [node name="Player" parent="." instance=ExtResource("2_jyhfs")]
 
@@ -27,6 +27,10 @@ layout_mode = 2
 text = "FPS: "
 
 [node name="PlayerPositionLabel" type="Label" parent="HUD/DebugInfo"]
+layout_mode = 2
+text = "Player Position: "
+
+[node name="CurrentBlockPositionLabel" type="Label" parent="HUD/DebugInfo"]
 layout_mode = 2
 text = "Player Position: "
 

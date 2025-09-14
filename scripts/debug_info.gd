@@ -2,10 +2,12 @@ extends VBoxContainer
 
 @onready var fps_label: Label = $FPSLabel
 @onready var player_position_label: Label = $PlayerPositionLabel
+@onready var current_block_position_label: Label = $CurrentBlockPositionLabel
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	EventBus.player_position_change.connect(_on_player_position_change)
+	EventBus.current_block_position.connect(_on_current_block_position_change)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -21,3 +23,5 @@ func _on_player_position_change(position: Vector2):
 	player_position_label.text = ("Player Position: (%.2f, %.2f)" % [position.x, position.y])
 	
 	
+func _on_current_block_position_change(position: Vector2i):
+	current_block_position_label.text = ("Current Block Position: (%d, %d)" % [position.x, position.y])
