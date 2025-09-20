@@ -20,9 +20,9 @@ var curr_block_pos_list = []
 var curr_block_dict: Dictionary = {}
 var generate_task_dict: Dictionary = {} # key: block_pos, value: task_id
 
-const LOAD_DISTANCE = 6
+const LOAD_DISTANCE = 10
 
-const ACTIVE_DISTANCE = min(LOAD_DISTANCE, 3)
+const ACTIVE_DISTANCE = min(LOAD_DISTANCE, 8)
 var active_world_start: Vector2
 var active_world_end: Vector2
 
@@ -49,14 +49,14 @@ func _ready() -> void:
 	
 	var texture_2d_array := Texture2DArray.new()
 	texture_2d_array.create_from_images([
-		Image.load_from_file("res://sprites/dirt.png"),
-		Image.load_from_file("res://sprites/dirt.png"),
-		Image.load_from_file("res://sprites/grass.png"),
-		Image.load_from_file("res://sprites/water.png"),
+		Image.load_from_file("res://sprites/outdoor.png").get_region(Rect2i(Vector2i(1, 19) * 32, Vector2i(32, 32))),
+		Image.load_from_file("res://sprites/outdoor.png").get_region(Rect2i(Vector2i(6, 3) * 32, Vector2i(32, 32))),
+		Image.load_from_file("res://sprites/outdoor.png").get_region(Rect2i(Vector2i(0, 0) * 32, Vector2i(32, 32))),
+		Image.load_from_file("res://sprites/outdoor.png").get_region(Rect2i(Vector2i(6, 16) * 32, Vector2i(32, 32))),
 	])
+	terrain_tile_map_layer.tile_set
 	var mat := terrain_tile_map_layer.material as ShaderMaterial
 	mat.set_shader_parameter("terrain_textures", texture_2d_array)
-	
 
 
 func _physics_process(delta: float) -> void:
