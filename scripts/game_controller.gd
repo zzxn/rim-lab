@@ -20,9 +20,9 @@ var curr_block_pos_list = []
 var curr_block_dict: Dictionary = {}
 var generate_task_dict: Dictionary = {} # key: block_pos, value: task_id
 
-const LOAD_DISTANCE = 4
+const LOAD_DISTANCE = 6
 
-const ACTIVE_DISTANCE = min(LOAD_DISTANCE, 2)
+const ACTIVE_DISTANCE = min(LOAD_DISTANCE, 3)
 var active_world_start: Vector2
 var active_world_end: Vector2
 

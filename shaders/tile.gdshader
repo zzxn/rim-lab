@@ -28,18 +28,18 @@ void fragment() {
 	if (world_position.x >= active_world_start.x && world_position.x < active_world_end.x && world_position.y >= active_world_start.y && world_position.y < active_world_end.y) {
 		// vec2 distort_coords = terrain_texture_coords + 0.02 * random(round(world_position));
 		
-		int bend_type = 2;
+		int bend_type = 1;
 		vec2 distort = vec2(0.0);
 		switch (bend_type) {
 			case 1: // brush
-				distort = vec2(0.02 * random(round(world_position)));
+				distort = vec2(random(round(world_position)));
 				break;
 			case 2: // hand-draw
-				distort =  (texture(noise, world_position * 0.001).rg - 0.5) * 0.03;
+				distort =  (texture(noise, world_position * 0.001).rg - 0.5);
 				break;
 		}
 		
-		float terrain_type = texture(terrain_type_data, terrain_texture_coords + distort).r * 10.0;
+		float terrain_type = texture(terrain_type_data, terrain_texture_coords + distort * 32.0 / (active_world_end - active_world_start)).r * 10.0;
 		COLOR = texture(terrain_textures, vec3(fract(world_position * 0.005), terrain_type));
 		// COLOR 
 		// COLOR.rgb = texture(terrain_type_data, terrain_texture_coords).rgb;
