@@ -26,10 +26,20 @@ void fragment() {
 	vec2 uv = UV;
 	
 	if (world_position.x >= active_world_start.x && world_position.x < active_world_end.x && world_position.y >= active_world_start.y && world_position.y < active_world_end.y) {
-		vec2 distort_coords = terrain_texture_coords + 0.02 * random(round(world_position));
-		// vec2 distort_coords = terrain_texture_coords;
-		// COLOR.rgb = texture(TEXTURE, uv + 0.01 * fract(sin(dot(world_position, vec2(12.9898, 78.233))) * 43758.5453)).rgb;
-		float terrain_type = texture(terrain_type_data, distort_coords).r * 10.0;
+		// vec2 distort_coords = terrain_texture_coords + 0.02 * random(round(world_position));
+		
+		int bend_type = 2;
+		vec2 distort = vec2(0.0);
+		switch (bend_type) {
+			case 1: // brush
+				distort = vec2(0.02 * random(round(world_position)));
+				break;
+			case 2: // hand-draw
+				distort =  (texture(noise, world_position * 0.001).rg - 0.5) * 0.03;
+				break;
+		}
+		
+		float terrain_type = texture(terrain_type_data, terrain_texture_coords + distort).r * 10.0;
 		COLOR = texture(terrain_textures, vec3(fract(world_position * 0.005), terrain_type));
 		// COLOR 
 		// COLOR.rgb = texture(terrain_type_data, terrain_texture_coords).rgb;
