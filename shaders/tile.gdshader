@@ -2,13 +2,31 @@ shader_type canvas_item;
 
 uniform sampler2D noise: filter_nearest, repeat_enable;
 varying vec2 world_position;
+uniform vec2 active_world_start;
+uniform vec2 active_world_end;
+
+uniform sampler2D terrain_type_data: filter_nearest;
+varying vec2 terrain_texture_coords;
+
+uniform sampler2DArray terrain_textures: filter_nearest;
 
 void vertex() {
 	world_position = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).xy;
+	terrain_texture_coords = (world_position - active_world_start) / (active_world_end - active_world_start);
 }
-
+ 
 void fragment() {
 	vec2 sample_pos = world_position * 0.01 + vec2(-TIME, -TIME) * 0.1;
 	vec4 noise_overlay = texture(noise, sample_pos);
 	COLOR.rgb += 0.1 * noise_overlay.rgb;
+	vec2 uv = UV;
+	
+	if (world_position.x >= active_world_start.x && world_position.x < active_world_end.x && world_position.y >= active_world_start.y && world_position.y < active_world_end.y) {
+		// vec2 distort_coords = terrain_texture_coords + 0.01 * fract(sin(dot(world_position, vec2(12.9898, 78.233))) * 43758.5453);
+		// COLOR.rgb = texture(TEXTURE, uv + 0.01 * fract(sin(dot(world_position, vec2(12.9898, 78.233))) * 43758.5453)).rgb;
+		float terrain_type = texture(terrain_type_data, terrain_texture_coords).r * 10.0;
+		COLOR = texture(terrain_textures, vec3(world_position, terrain_type));
+		// COLOR 
+		// COLOR.rgb = texture(terrain_type_data, terrain_texture_coords).rgb;
+	}
 }

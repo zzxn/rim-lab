@@ -5,3 +5,8 @@
 [node name="Block" type="Node2D"]
 z_index = -100
 script = ExtResource("5_1bw7o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+z_index = 100
+centered = false

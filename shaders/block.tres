@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cjx54rqie1i61"]
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://cjx54rqie1i61"]
 
 [ext_resource type="Shader" uid="uid://ye1cjsxmdndo" path="res://shaders/tile.gdshader" id="1_s5n8v"]
 
@@ -9,6 +9,11 @@ seamless = true
 normalize = false
 noise = SubResource("FastNoiseLite_s5n8v")
 
+[sub_resource type="CompressedTexture2DArray" id="CompressedTexture2DArray_s5n8v"]
+
 [resource]
 shader = ExtResource("1_s5n8v")
 shader_parameter/noise = SubResource("NoiseTexture2D_rvfs3")
+shader_parameter/active_world_start = Vector2(0, 0)
+shader_parameter/active_world_end = Vector2(0, 0)
+shader_parameter/terrain_textures = SubResource("CompressedTexture2DArray_s5n8v")

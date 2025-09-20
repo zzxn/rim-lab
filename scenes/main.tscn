@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://br1ijkgjtu3l1"]
+[gd_scene load_steps=7 format=3 uid="uid://br1ijkgjtu3l1"]
 
 [ext_resource type="Script" uid="uid://cyfhw668q70n1" path="res://scripts/game_controller.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://ccwoeirjunajd" path="res://scenes/player.tscn" id="2_jyhfs"]
+[ext_resource type="Material" uid="uid://cjx54rqie1i61" path="res://shaders/block.tres" id="4_tbgi4"]
 [ext_resource type="Script" uid="uid://b2nif2k2amag4" path="res://scripts/debug_info.gd" id="5_tbgi4"]
 [ext_resource type="TileSet" uid="uid://gkulhukl4y58" path="res://scenes/terrain_tile_set.tres" id="6_tipki"]
 
@@ -38,10 +39,15 @@ text = "Player Position: "
 layout_mode = 2
 text = "Hint Block"
 
-[node name="Blocks" type="Node" parent="."]
+[node name="VisibleTerrianSprite" type="Sprite2D" parent="HUD/DebugInfo"]
+scale = Vector2(10, 10)
+centered = false
 
 [node name="TerrainTileMapLayer" type="TileMapLayer" parent="."]
 z_index = -100
+material = ExtResource("4_tbgi4")
 tile_set = ExtResource("6_tipki")
+
+[node name="Blocks" type="Node" parent="."]
 
 [connection signal="toggled" from="HUD/DebugInfo/HintBlockCheckButton" to="HUD/DebugInfo" method="_on_hint_block_check_button_toggled"]
