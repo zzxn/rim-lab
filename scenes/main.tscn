@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://br1ijkgjtu3l1"]
+[gd_scene load_steps=10 format=3 uid="uid://br1ijkgjtu3l1"]
 
 [ext_resource type="Script" uid="uid://cyfhw668q70n1" path="res://scripts/game_controller.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://ccwoeirjunajd" path="res://scenes/player.tscn" id="2_jyhfs"]
@@ -11,13 +11,26 @@
 seed = 1462195830
 frequency = 0.002
 
+[sub_resource type="Gradient" id="Gradient_tefeu"]
+offsets = PackedFloat32Array(0, 0.125972, 0.30637637)
+colors = PackedColorArray(1, 1, 1, 1, 0.26136357, 0.26136357, 0.26136357, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_o6xl0"]
+gradient = SubResource("Gradient_tefeu")
+width = 1024
+height = 1024
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="GameController" type="Node" node_paths=PackedStringArray("player")]
 script = ExtResource("1_o5qli")
 noise = SubResource("FastNoiseLite_o5qli")
 player = NodePath("Player")
 
 [node name="Player" parent="." instance=ExtResource("2_jyhfs")]
-speed = 50
+
+[node name="PointLight2D" type="PointLight2D" parent="Player"]
+texture = SubResource("GradientTexture2D_o6xl0")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -53,5 +66,8 @@ material = ExtResource("4_tbgi4")
 tile_set = ExtResource("6_tipki")
 
 [node name="Blocks" type="Node" parent="."]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.04315205, 0.043141916, 0.08103276, 1)
 
 [connection signal="toggled" from="HUD/DebugInfo/HintBlockCheckButton" to="HUD/DebugInfo" method="_on_hint_block_check_button_toggled"]

@@ -54,6 +54,7 @@ void fragment() {
 			////}
 		//}
 		
-		COLOR.g *= 1.1;
+		// COLOR.g *= 1.1;
+		// COLOR.rgb *= 0.125;
 	}
 }
