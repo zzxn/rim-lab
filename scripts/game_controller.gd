@@ -9,8 +9,8 @@ var noise: Noise = FastNoiseLite.new()
 @export
 var player: Node2D
 
-@onready var blocks_parent: Node = $Blocks
-@onready var terrain_tile_map_layer: TileMapLayer = $TerrainTileMapLayer
+@onready var blocks_parent: Node = $World/Blocks
+@onready var terrain_tile_map_layer: TileMapLayer = $World/TerrainTileMapLayer
 
 var block_scene: PackedScene = preload("res://scenes/block.tscn")
 
@@ -69,6 +69,7 @@ func _physics_process(delta: float) -> void:
 	load_unload_blocks(delta)
 	process_block_enter_queue(delta)
 	process_terrain_texture(delta)
+	pass
 
 
 func load_unload_blocks(_delta: float):

@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-@export var speed := 100
+@export var speed: float = 2.0
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 var direction = "up" # up down
@@ -22,7 +22,7 @@ func _physics_process(delta):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if input_dir:
 		input_dir = input_dir.normalized()
-		velocity = input_dir * speed
+		velocity = input_dir * speed * Globals.M
 		
 		var max_dist = 0.0
 		for vec in eight_directions:
