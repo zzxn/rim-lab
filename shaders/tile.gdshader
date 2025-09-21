@@ -20,12 +20,13 @@ void vertex() {
 }
  
 void fragment() {
+	vec2 wrapped_world_position = fract(world_position / 640.0) * 640.0;
 	if (world_position.x >= active_world_start.x && world_position.x < active_world_end.x && world_position.y >= active_world_start.y && world_position.y < active_world_end.y) {		
 		int bend_type = 1;
 		vec2 distort = vec2(0.0);
 		switch (bend_type) {
 			case 1: // brush
-				distort += vec2(random(round( fract(world_position / 320.0) * 320.0 ))) - 0.5;
+				distort += vec2(random(round(wrapped_world_position))) - 0.5;
 				break;
 			case 2: // hand-draw
 				distort +=  (texture(noise, world_position * 0.001).rg - 0.5);
@@ -53,6 +54,6 @@ void fragment() {
 			////}
 		//}
 		
-		// COLOR.g *= 1.1;
+		COLOR.g *= 1.1;
 	}
 }

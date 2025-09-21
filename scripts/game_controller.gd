@@ -21,9 +21,9 @@ var curr_block_dict: Dictionary = {}
 var generate_task_dict: Dictionary = {} # key: block_pos, value: task_id
 var required_block_pos_list = []
 
-const LOAD_DISTANCE = 8
+const LOAD_DISTANCE = 10
 
-const ACTIVE_DISTANCE = min(LOAD_DISTANCE, 6)
+const ACTIVE_DISTANCE = min(LOAD_DISTANCE, 8)
 var active_world_start: Vector2
 var active_world_end: Vector2
 
@@ -106,8 +106,10 @@ func process_block_enter_queue(delta: float):
 		var block = block_enter_scene_queue.pop_front()
 		if block.block_pos in curr_block_dict:
 			push_warning("block already generated...", str(block.block_pos))
+			generate_task_dict.erase(block.block_pos)
 		elif block.block_pos not in required_block_pos_list:
 			# push_warning("block is not needed anymore")
+			generate_task_dict.erase(block.block_pos)
 			pass
 		else:
 			block_enter_timeout += BLOCK_ENTER_SCENE_TIME_GAP

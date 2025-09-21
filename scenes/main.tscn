@@ -17,7 +17,7 @@ noise = SubResource("FastNoiseLite_o5qli")
 player = NodePath("Player")
 
 [node name="Player" parent="." instance=ExtResource("2_jyhfs")]
-speed = 5000
+speed = 50
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
