@@ -5,9 +5,9 @@
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_s5n8v"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rvfs3"]
+noise = SubResource("FastNoiseLite_s5n8v")
 seamless = true
 normalize = false
-noise = SubResource("FastNoiseLite_s5n8v")
 
 [sub_resource type="CompressedTexture2DArray" id="CompressedTexture2DArray_s5n8v"]
 

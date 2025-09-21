@@ -19,6 +19,7 @@ var last_block_pos: Vector2i
 var curr_block_pos_list = []
 var curr_block_dict: Dictionary = {}
 var generate_task_dict: Dictionary = {} # key: block_pos, value: task_id
+var required_block_pos_list = []
 
 const LOAD_DISTANCE = 8
 
@@ -28,7 +29,7 @@ var active_world_end: Vector2
 
 const MAX_PLAYER_POS_LIMIT = 8000 * Globals.M
 
-const BLOCK_ENTER_SCENE_TIME_GAP = 0.01
+const BLOCK_ENTER_SCENE_TIME_GAP = 0.001
 var block_enter_timeout = 0.0
 
 var block_enter_scene_queue = []
@@ -60,7 +61,6 @@ func _ready() -> void:
 		#Image.load_from_file("res://sprites/grass2.png").get_region(Rect2i(Vector2i(0, 0) * 32, Vector2i(32, 32))),
 		#Image.load_from_file("res://sprites/outdoor.png").get_region(Rect2i(Vector2i(6, 16) * 32, Vector2i(32, 32))),
 	#])
-	terrain_tile_map_layer.tile_set
 	var mat := terrain_tile_map_layer.material as ShaderMaterial
 	mat.set_shader_parameter("terrain_textures", texture_2d_array)
 
@@ -71,7 +71,7 @@ func _physics_process(delta: float) -> void:
 	process_terrain_texture(delta)
 
 
-func load_unload_blocks(delta: float):
+func load_unload_blocks(_delta: float):
 	var player_position := player.position if player else Vector2.ZERO
 	var curr_block_pos = global_to_block_pos(player_position)
 	if last_block_pos and curr_block_pos == last_block_pos:
@@ -79,7 +79,7 @@ func load_unload_blocks(delta: float):
 	last_block_pos = curr_block_pos
 	EventBus.current_block_position.emit(curr_block_pos)
 
-	var required_block_pos_list := []
+	required_block_pos_list.clear()
 	for dy in range(-LOAD_DISTANCE, LOAD_DISTANCE+1):
 		for dx in range(-LOAD_DISTANCE, LOAD_DISTANCE+1):
 			required_block_pos_list.append(Vector2i(curr_block_pos.x + dx, curr_block_pos.y + dy))
@@ -102,19 +102,22 @@ func load_unload_blocks(delta: float):
 func process_block_enter_queue(delta: float):
 	# add blocks to scenes
 	block_enter_timeout = max(block_enter_timeout - delta, 0)
-	if block_enter_timeout <= 0 and block_enter_scene_queue:
-		block_enter_timeout += BLOCK_ENTER_SCENE_TIME_GAP
+	while block_enter_timeout <= 0 and block_enter_scene_queue:
 		var block = block_enter_scene_queue.pop_front()
 		if block.block_pos in curr_block_dict:
 			push_warning("block already generated...", str(block.block_pos))
+		elif block.block_pos not in required_block_pos_list:
+			# push_warning("block is not needed anymore")
+			pass
 		else:
+			block_enter_timeout += BLOCK_ENTER_SCENE_TIME_GAP
 			# print_debug("add_child(block)", str(block.block_pos))
 			curr_block_dict[block.block_pos] = block
 			blocks_parent.add_child(block)
 			generate_task_dict.erase(block.block_pos)
 
 
-func process_terrain_texture(delta: float):
+func process_terrain_texture(_delta: float):
 	visible_terrian_image.fill(Color(0, 0, 0, 1))
 	for dy in range(-ACTIVE_DISTANCE, ACTIVE_DISTANCE+1):
 		for dx in range(-ACTIVE_DISTANCE, ACTIVE_DISTANCE+1):

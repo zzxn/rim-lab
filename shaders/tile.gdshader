@@ -25,7 +25,7 @@ void fragment() {
 		vec2 distort = vec2(0.0);
 		switch (bend_type) {
 			case 1: // brush
-				distort += vec2(random(round(world_position))) - 0.5;
+				distort += vec2(random(round( fract(world_position / 320.0) * 320.0 ))) - 0.5;
 				break;
 			case 2: // hand-draw
 				distort +=  (texture(noise, world_position * 0.001).rg - 0.5);
