@@ -20,9 +20,9 @@ var curr_block_pos_list = []
 var curr_block_dict: Dictionary = {}
 var generate_task_dict: Dictionary = {} # key: block_pos, value: task_id
 
-const LOAD_DISTANCE = 10
+const LOAD_DISTANCE = 8
 
-const ACTIVE_DISTANCE = min(LOAD_DISTANCE, 8)
+const ACTIVE_DISTANCE = min(LOAD_DISTANCE, 6)
 var active_world_start: Vector2
 var active_world_end: Vector2
 
@@ -54,6 +54,12 @@ func _ready() -> void:
 		Image.load_from_file("res://sprites/outdoor.png").get_region(Rect2i(Vector2i(0, 0) * 32, Vector2i(32, 32))),
 		Image.load_from_file("res://sprites/outdoor.png").get_region(Rect2i(Vector2i(6, 16) * 32, Vector2i(32, 32))),
 	])
+	#texture_2d_array.create_from_images([
+		#Image.load_from_file("res://sprites/dirt2.png").get_region(Rect2i(Vector2i(0, 0) * 32, Vector2i(32, 32))),
+		#Image.load_from_file("res://sprites/dirt2.png").get_region(Rect2i(Vector2i(0, 0) * 32, Vector2i(32, 32))),
+		#Image.load_from_file("res://sprites/grass2.png").get_region(Rect2i(Vector2i(0, 0) * 32, Vector2i(32, 32))),
+		#Image.load_from_file("res://sprites/outdoor.png").get_region(Rect2i(Vector2i(6, 16) * 32, Vector2i(32, 32))),
+	#])
 	terrain_tile_map_layer.tile_set
 	var mat := terrain_tile_map_layer.material as ShaderMaterial
 	mat.set_shader_parameter("terrain_textures", texture_2d_array)
@@ -83,7 +89,7 @@ func load_unload_blocks(delta: float):
 	# load blocks
 	for block_pos in required_block_pos_list:
 		if block_pos not in curr_block_dict and block_pos not in generate_task_dict:
-			print_debug("add_generate_block_task", str(block_pos))
+			# print_debug("add_generate_block_task", str(block_pos))
 			var task_id := WorkerThreadPool.add_task(generate_block.bind(block_pos))
 			generate_task_dict[block_pos] = task_id
 
@@ -102,7 +108,7 @@ func process_block_enter_queue(delta: float):
 		if block.block_pos in curr_block_dict:
 			push_warning("block already generated...", str(block.block_pos))
 		else:
-			print_debug("add_child(block)", str(block.block_pos))
+			# print_debug("add_child(block)", str(block.block_pos))
 			curr_block_dict[block.block_pos] = block
 			blocks_parent.add_child(block)
 			generate_task_dict.erase(block.block_pos)
@@ -148,12 +154,12 @@ func global_to_block_pos(global_pos: Vector2) -> Vector2i:
 	
 
 func queue_add_block(block: Block):
-	print_debug("queue_add_block", str(block.block_pos))
+	# print_debug("queue_add_block", str(block.block_pos))
 	block_enter_scene_queue.append(block)
 
 
 func remove_block(block: Block):
-	print_debug("remove_block", str(block.block_pos))
+	# print_debug("remove_block", str(block.block_pos))
 	curr_block_dict.erase(block.block_pos)
 	block.queue_free()
 

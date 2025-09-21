@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://br1ijkgjtu3l1"]
+[gd_scene load_steps=8 format=3 uid="uid://br1ijkgjtu3l1"]
 
 [ext_resource type="Script" uid="uid://cyfhw668q70n1" path="res://scripts/game_controller.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://ccwoeirjunajd" path="res://scenes/player.tscn" id="2_jyhfs"]
 [ext_resource type="Material" uid="uid://cjx54rqie1i61" path="res://shaders/block.tres" id="4_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://cynfv80bkiyqm" path="res://icon.svg" id="4_tefeu"]
 [ext_resource type="Script" uid="uid://b2nif2k2amag4" path="res://scripts/debug_info.gd" id="5_tbgi4"]
 [ext_resource type="TileSet" uid="uid://gkulhukl4y58" path="res://scenes/terrain_tile_set.tres" id="6_tipki"]
 
@@ -16,6 +17,7 @@ noise = SubResource("FastNoiseLite_o5qli")
 player = NodePath("Player")
 
 [node name="Player" parent="." instance=ExtResource("2_jyhfs")]
+speed = 1000
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -41,6 +43,8 @@ layout_mode = 2
 text = "Hint Block"
 
 [node name="VisibleTerrianSprite" type="Sprite2D" parent="HUD/DebugInfo"]
+position = Vector2(1, 134)
+texture = ExtResource("4_tefeu")
 centered = false
 
 [node name="TerrainTileMapLayer" type="TileMapLayer" parent="."]
