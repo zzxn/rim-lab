@@ -85,6 +85,7 @@ radius = 7.0
 script = ExtResource("1_i750c")
 
 [node name="PointLight2D2" type="PointLight2D" parent="."]
+shadow_filter = 2
 texture = SubResource("GradientTexture2D_tefeu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -92,4 +93,5 @@ sprite_frames = SubResource("SpriteFrames_jbj1t")
 autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 9)
 shape = SubResource("CircleShape2D_tipki")
