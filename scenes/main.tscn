@@ -78,6 +78,7 @@ position = Vector2(100, 100)
 [node name="Player" parent="World" instance=ExtResource("2_jyhfs")]
 
 [node name="PointLight2D" type="PointLight2D" parent="World/Player"]
+color = Color(0.98833334, 1, 0.65, 1)
 shadow_filter = 2
 texture = SubResource("GradientTexture2D_o6xl0")
 
