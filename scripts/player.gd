@@ -18,6 +18,8 @@ var eight_directions = {
 	Vector2(1, 1).normalized(): "down-right",
 }
 
+var walk_cool_down := 0.0
+
 func _physics_process(delta):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if input_dir:
@@ -59,6 +61,11 @@ func _physics_process(delta):
 				animated_sprite.flip_h = true
 			
 		move_and_slide()
+		if walk_cool_down <= 0:
+			$WalkAudioPlayer.play()
+			walk_cool_down = 0.36
+		else:
+			walk_cool_down = max(0, walk_cool_down - delta)
 	else:
 		match direction:
 			"up":
