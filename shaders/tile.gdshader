@@ -36,13 +36,21 @@ void fragment() {
 				break;
 		}
 		
-		float terrain_type = texture(terrain_type_data, terrain_texture_coords + distort * 32.0 / (active_world_end - active_world_start)).r * 10.0;
+		vec4 terrain_data = texture(terrain_type_data, terrain_texture_coords + distort * 32.0 / (active_world_end - active_world_start));
+		float terrain_type = terrain_data.r * 10.0;
 		vec4 distort_color = texture(terrain_textures, vec3(fract(world_position / 32.0), terrain_type));
-		
+		// water distort
+		if (terrain_data.b > 0.49) {
+			vec2 water_world_position = world_position;
+			// water_world_position *= 1.0 + 0.01 * vec2(sin(TIME), sin(TIME + 2.334));
+			water_world_position += vec2(sin(TIME), sin(TIME + 2.334));
+			// TODO: calculate pixel size to align
+			water_world_position += sin(water_world_position * 0.2 + TIME * 0.5);
+			distort_color = texture(terrain_textures, vec3(fract((water_world_position) / 32.0), terrain_type));
+		}
 		COLOR = distort_color;
 		
-		// water distort
-		//if (abs(terrain_type - 3.0) < 0.1) {
+		// if (abs(terrain_type - 3.0) < 0.1) {
 			//float terrain_type = texture(terrain_type_data, terrain_texture_coords + distort * 32.0 * ((sin(TIME * 0.5) + 2.0) * 0.2) / (active_world_end - active_world_start)).r * 10.0;
 			//// vec2 terrain_sample_coords = world_position + (texture(noise, world_position * 0.005 + sin(vec2(1.0, 2.0)) * fract(TIME * 0.01)).rg * 10.0 - 0.5) * 10.0;
 			//COLOR = texture(terrain_textures, vec3(fract(terrain_texture_coords / 32.0), terrain_type));

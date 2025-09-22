@@ -1,12 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://cj4twhiysgla2"]
+[gd_scene load_steps=5 format=3 uid="uid://cj4twhiysgla2"]
 
 [ext_resource type="Texture2D" uid="uid://bsqq2xud0yqd3" path="res://sprites/FreePack.png" id="1_avsvi"]
+[ext_resource type="Shader" uid="uid://fnc7me2e56lq" path="res://shaders/tree.gdshader" id="1_vplca"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_viusy"]
+shader = ExtResource("1_vplca")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_avsvi"]
 radius = 5.0
 height = 20.0
 
 [node name="Tree" type="Sprite2D"]
+material = SubResource("ShaderMaterial_viusy")
 texture = ExtResource("1_avsvi")
 offset = Vector2(0, -51)
 region_enabled = true
