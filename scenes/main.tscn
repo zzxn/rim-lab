@@ -10,12 +10,11 @@
 [ext_resource type="PackedScene" uid="uid://cj4twhiysgla2" path="res://scenes/tree.tscn" id="8_tipki"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_o5qli"]
-seed = 1462195830
+seed = 188
 frequency = 0.002
 
 [node name="GameController" type="Node" node_paths=PackedStringArray("player")]
 script = ExtResource("1_o5qli")
-block_size = null
 noise = SubResource("FastNoiseLite_o5qli")
 player = NodePath("World/Player")
 
@@ -41,9 +40,15 @@ text = "Player Position: "
 [node name="HintBlockCheckButton" type="CheckButton" parent="HUD/DebugInfo"]
 layout_mode = 2
 text = "Hint Block"
+flat = true
+
+[node name="DayNightCheckButton" type="CheckButton" parent="HUD/DebugInfo"]
+layout_mode = 2
+text = "Day / Night"
+flat = true
 
 [node name="VisibleTerrianSprite" type="Sprite2D" parent="HUD/DebugInfo"]
-position = Vector2(1, 134)
+position = Vector2(10, 157)
 texture = ExtResource("4_tefeu")
 centered = false
 
@@ -68,28 +73,5 @@ position = Vector2(100, 100)
 [node name="Tree" parent="World" instance=ExtResource("8_tipki")]
 position = Vector2(-62, -15)
 
-[node name="Tree2" parent="World" instance=ExtResource("8_tipki")]
-position = Vector2(-201.5, -24)
-
-[node name="Tree3" parent="World" instance=ExtResource("8_tipki")]
-position = Vector2(-433.5, 93)
-
-[node name="Tree4" parent="World" instance=ExtResource("8_tipki")]
-position = Vector2(-462.5, -142)
-
-[node name="Tree5" parent="World" instance=ExtResource("8_tipki")]
-position = Vector2(-108.5, -156)
-
-[node name="Tree6" parent="World" instance=ExtResource("8_tipki")]
-position = Vector2(-191.5, -134)
-
-[node name="Tree7" parent="World" instance=ExtResource("8_tipki")]
-position = Vector2(-129.5, -88)
-
-[node name="Tree8" parent="World" instance=ExtResource("8_tipki")]
-position = Vector2(-92.5, -33)
-
-[node name="Tree9" parent="World" instance=ExtResource("8_tipki")]
-position = Vector2(-158.5, -39)
-
 [connection signal="toggled" from="HUD/DebugInfo/HintBlockCheckButton" to="HUD/DebugInfo" method="_on_hint_block_check_button_toggled"]
+[connection signal="toggled" from="HUD/DebugInfo/DayNightCheckButton" to="HUD/DebugInfo" method="_on_day_night_check_button_toggled"]

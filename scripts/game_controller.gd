@@ -11,6 +11,7 @@ var player: Node2D
 
 @onready var blocks_parent: Node = $World/Blocks
 @onready var terrain_tile_map_layer: TileMapLayer = $World/TerrainTileMapLayer
+@onready var canvas_modulate: CanvasModulate = $World/CanvasModulate
 
 var block_scene: PackedScene = preload("res://scenes/block.tscn")
 
@@ -35,6 +36,11 @@ var block_enter_timeout = 0.0
 var block_enter_scene_queue = []
 
 var debug_config: Dictionary
+
+var NIGHT_COLOR := Color("0b0b15")
+var DAY_COLOR := Color("ffffff")
+
+var world_modulate_color: Color = NIGHT_COLOR
 
 var visible_terrian_image: Image
 @onready var visible_terrian_sprite: Sprite2D = $HUD/DebugInfo/VisibleTerrianSprite
@@ -63,6 +69,15 @@ func _ready() -> void:
 	#])
 	var mat := terrain_tile_map_layer.material as ShaderMaterial
 	mat.set_shader_parameter("terrain_textures", texture_2d_array)
+	
+
+
+func _process(delta: float) -> void:
+	if debug_config.get("day_night", false):
+		world_modulate_color = lerp(world_modulate_color, DAY_COLOR, delta)
+	else:
+		world_modulate_color = lerp(world_modulate_color, NIGHT_COLOR, delta)
+	canvas_modulate.color = world_modulate_color
 
 
 func _physics_process(delta: float) -> void:

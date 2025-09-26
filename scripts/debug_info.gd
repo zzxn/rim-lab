@@ -25,3 +25,7 @@ func _on_player_position_change(position: Vector2):
 	
 func _on_current_block_position_change(position: Vector2i):
 	current_block_position_label.text = ("Current Block Position: (%d, %d)" % [position.x, position.y])
+
+
+func _on_day_night_check_button_toggled(toggled_on: bool) -> void:
+	EventBus.debug_config_change.emit("day_night", toggled_on)
