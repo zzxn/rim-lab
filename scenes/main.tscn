@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://br1ijkgjtu3l1"]
+[gd_scene load_steps=10 format=3 uid="uid://br1ijkgjtu3l1"]
 
 [ext_resource type="Script" uid="uid://cyfhw668q70n1" path="res://scripts/game_controller.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://ccwoeirjunajd" path="res://scenes/player.tscn" id="2_jyhfs"]
@@ -8,22 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://ypbsybrc6yvl" path="res://scenes/fairy.tscn" id="6_o6xl0"]
 [ext_resource type="TileSet" uid="uid://gkulhukl4y58" path="res://scenes/terrain_tile_set.tres" id="6_tipki"]
 [ext_resource type="PackedScene" uid="uid://cj4twhiysgla2" path="res://scenes/tree.tscn" id="8_tipki"]
-[ext_resource type="AudioStream" uid="uid://c6rnn8h74o53d" path="res://sfx/bgm/Unexplored Fields.mp3" id="9_85g3d"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_o5qli"]
 seed = 1462195830
 frequency = 0.002
-
-[sub_resource type="Gradient" id="Gradient_tefeu"]
-offsets = PackedFloat32Array(0, 0.125972, 0.30637637)
-colors = PackedColorArray(1, 1, 1, 1, 0.26136357, 0.26136357, 0.26136357, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_o6xl0"]
-gradient = SubResource("Gradient_tefeu")
-width = 1024
-height = 1024
-fill = 1
-fill_from = Vector2(0.5, 0.5)
 
 [node name="GameController" type="Node" node_paths=PackedStringArray("player")]
 script = ExtResource("1_o5qli")
@@ -76,16 +64,6 @@ tile_set = ExtResource("6_tipki")
 position = Vector2(100, 100)
 
 [node name="Player" parent="World" instance=ExtResource("2_jyhfs")]
-
-[node name="PointLight2D" type="PointLight2D" parent="World/Player"]
-color = Color(0.98833334, 1, 0.65, 1)
-shadow_filter = 2
-texture = SubResource("GradientTexture2D_o6xl0")
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="World/Player"]
-stream = ExtResource("9_85g3d")
-autoplay = true
-bus = &"BGM"
 
 [node name="Tree" parent="World" instance=ExtResource("8_tipki")]
 position = Vector2(-62, -15)

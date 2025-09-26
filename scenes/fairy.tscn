@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://ypbsybrc6yvl"]
+[gd_scene load_steps=16 format=3 uid="uid://ypbsybrc6yvl"]
 
 [ext_resource type="Script" uid="uid://bj5critrfkk7g" path="res://scripts/fairy.gd" id="1_i750c"]
+[ext_resource type="PackedScene" uid="uid://t48t8j3xtak0" path="res://scenes/animated_silhouette_sprite.tscn" id="2_7w7tx"]
 [ext_resource type="Texture2D" uid="uid://cgqvtqm8ltr2i" path="res://sprites/Fairy 2.png" id="2_kf1oj"]
 
 [sub_resource type="Gradient" id="Gradient_tefeu"]
@@ -13,6 +14,9 @@ width = 1024
 height = 1024
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tipki"]
+radius = 7.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tipki"]
 atlas = ExtResource("2_kf1oj")
@@ -78,9 +82,6 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_tipki"]
-radius = 7.0
-
 [node name="Fairy" type="CharacterBody2D"]
 script = ExtResource("1_i750c")
 
@@ -88,10 +89,11 @@ script = ExtResource("1_i750c")
 shadow_filter = 2
 texture = SubResource("GradientTexture2D_tefeu")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_jbj1t")
-autoplay = "default"
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 9)
 shape = SubResource("CircleShape2D_tipki")
+
+[node name="AnimatedSilhouetteSprite" parent="." instance=ExtResource("2_7w7tx")]
+sprite_frames = SubResource("SpriteFrames_jbj1t")
+animation = &"default"
+autoplay = "default"

@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://t48t8j3xtak0"]
+
+[ext_resource type="Script" uid="uid://bkv0lou150gqj" path="res://scripts/animated_sprite_2d_with_silhouette.gd" id="1_le3es"]
+[ext_resource type="Shader" uid="uid://clljjtaxp351t" path="res://shaders/player.gdshader" id="2_qgegt"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_i0r5h"]
+light_mode = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a840w"]
+shader = ExtResource("2_qgegt")
+shader_parameter/silhouette_color = Vector4(0, 0, 0, 0.5)
+
+[node name="AnimatedSilhouetteSprite" type="AnimatedSprite2D"]
+material = SubResource("CanvasItemMaterial_i0r5h")
+animation = &""
+autoplay = "idle-front"
+script = ExtResource("1_le3es")
+
+[node name="Silhouette" type="AnimatedSprite2D" parent="."]
+z_index = 100
+material = SubResource("ShaderMaterial_a840w")
